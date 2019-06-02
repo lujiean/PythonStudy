@@ -63,3 +63,26 @@ for i in list_a:
 print("-set-----")
 set_a = {"a", "b", "a"}
 print(set_a)
+
+print("-moduls-----")
+import utils
+utils.CommFunc1(4,6)
+
+newNameCommFunc1 = utils.CommFunc1
+newNameCommFunc1(7,0)
+
+print("-main func-----")
+
+if __name__ == "__main__":
+    import sys
+    newNameCommFunc1(int(sys.argv[1]), int(sys.argv[2]))
+
+print("-pkg test-----")
+# import pkg1.innerpkg1.pkg1utils
+# pkg1.innerpkg1.pkg1utils.pkg1CommFunc1(77)
+
+# import pkg1.innerpkg1.  #cannot run this
+from pkg1.innerpkg1 import *
+
+pkg1.innerpkg1.pkg1utils.pkg1CommFunc1(88)
+pkg1.innerpkg1.pkg1utils2.pkg2Commfunc2("hah")

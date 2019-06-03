@@ -20,3 +20,6 @@ PS C:\Users\sqpz\Documents\PythonStudy> pip --trusted-host pypi.org --trusted-ho
 
 5. 在爬虫中使用proxy 可以同时使用Fiddler4 和爬虫
 http://baijiahao.baidu.com/s?id=1599906763166379926&wfr=spider&for=pc
+
+6. test case
+链接: https://pan.baidu.com/s/1MtzzoarNAZbQGv92zlZyCg 提取码: rxks 复制这段内容后打开百度网盘手机App，操作更方便哦

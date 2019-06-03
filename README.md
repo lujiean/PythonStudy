@@ -23,3 +23,14 @@ http://baijiahao.baidu.com/s?id=1599906763166379926&wfr=spider&for=pc
 
 6. test case
 链接: https://pan.baidu.com/s/1MtzzoarNAZbQGv92zlZyCg 提取码: rxks 复制这段内容后打开百度网盘手机App，操作更方便哦
+
+7. flow
+发送request
+—> 
+收到response，分析获取数据
+-> 
+再发送request
+-> 
+再收到response，分析获取数据
+...
+直到获取了自己需要的信息

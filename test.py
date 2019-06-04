@@ -82,7 +82,75 @@ print("-pkg test-----")
 # pkg1.innerpkg1.pkg1utils.pkg1CommFunc1(77)
 
 # import pkg1.innerpkg1.  #cannot run this
-from pkg1.innerpkg1 import *
+# from pkg1.innerpkg1 import *
 
-pkg1.innerpkg1.pkg1utils.pkg1CommFunc1(88)
-pkg1.innerpkg1.pkg1utils2.pkg2Commfunc2("hah")
+# pkg1.innerpkg1.pkg1utils.pkg1CommFunc1(88)
+# pkg1.innerpkg1.pkg1utils2.pkg2Commfunc2("hah")
+
+print("-dict test-----")
+dict1 = { 
+    "name1":"hello",
+    "name2":"what?",
+    "nameList1": [{
+            "listName1": "not",
+            "listName2": "bb"
+        },
+        {
+            "list2Name1": "struck",
+            "list2Name2": "brown"
+        }]
+    }
+print(dict1["nameList1"][0])
+
+dict2common = {
+    "name1":"kk"
+}
+print(dict2common)
+
+dict3 = [{
+    "name2": "conbine"
+},
+{
+    "name3": "haha"
+}]
+print(dict3)
+print(dict3[0]["name2"])
+
+dict4 = {
+    "name2": "conbine"
+}
+
+# dict4 add dict2common data
+for k, v in dict2common.items():
+    dict4[k]=v
+    # print("k = " + k + ", v = " + v)
+
+print(dict4)
+
+print("-Formatted String Literals-----")
+str="ljj"
+print(f'{str} is a good boy')
+# print(f'{str:-9s} is a good girl')
+f'{str:9s} is a good girl'
+
+for k, v in dict4.items():
+    print(f'{k:10s} ==> {v:20s}|')
+    # print('{:10} ==> {v:20}'.format(k,v))
+
+# Reading and Writing Files
+print("-Reading and Writing Files-----")
+f=open('utils.py', 'r')
+print(f.read())
+f.close()
+with open('utils.py', 'r') as f:
+    str = f.read()
+    print(str)
+
+f=open('wf2.log','w')
+f.write("this is a writed line.")
+f.close()
+with open('wf3.log', 'w') as f:
+    f.write('hello nboy')
+
+import json
+# json.lo

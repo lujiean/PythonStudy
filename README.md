@@ -38,5 +38,8 @@ http://baijiahao.baidu.com/s?id=1599906763166379926&wfr=spider&for=pc
 8. avoid requests auto redirect.
 ret = requests.get(url=url, headers=headers, allow_redirects=False)
 
+9. Python获取URL中参数的方法
+https://blog.csdn.net/weixin_34179762/article/details/86943489
+
 Reference Dic
 1. https://2.python-requests.org/en/master/user/quickstart/#make-a-request

@@ -11,7 +11,7 @@ def PrintHttpDetails(ret):
 
 def GetCookieFromResponse(resp):
     str=""
-    print(resp.cookies)
+    # print(resp.cookies)
     for i in resp.cookies:
         str = str + i.name + "=" + i.value + ";"
     return str[0:len(str)-1]
@@ -73,7 +73,60 @@ def TestSpider2():
     }
     resp = requests.get(url, headers=headers, allow_redirects=False)
     resp.encoding = 'UTF-8'
-    PrintHttpDetails(resp)
+    # PrintHttpDetails(resp)
+    # --
+
+    # --s3: post pick_up_code request
+    url2 = "https://pan.baidu.com/share/verify"
+
+    from urllib import parse
+    surl = parse.parse_qs(parse.urlparse(url).query)['surl'][0]
+
+    params = {
+        # "surl": "pUZRD5wJOM7iUA4_O-TRSw",
+        "surl": surl,
+        # "t": "1559704493678",
+        "t": "1559704493678",
+        "channel": "chunlei",
+        "web": "1",
+        "app_id": "250528",
+        "bdstoken": "null",
+        # "logid": "MTU1OTcwNDQ5MzY4MTAuNTM0OTc1MDYyNzc4NTI2OA==",
+        "logid": "MTU1OTcwNDQ5MzY4MTAuNTM0OTc1MDYyNzc4NTI2OA==",
+        "clienttype": "0"
+    }
+    print(params)
+
+    headers = {
+        "Host": "pan.baidu.com",
+        "Connection": "keep-alive",
+        "Content-Length": "26",
+        "Accept": "*/*",
+        "Origin": "https://pan.baidu.com",
+        "X-Requested-With": "XMLHttpRequest",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36",
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+        # "Referer": "https://pan.baidu.com/share/init?surl=pUZRD5wJOM7iUA4_O-TRSw",
+        "Referer": url,
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "zh-CN,zh;q=0.9",
+        # "Cookie": "PANWEB=1; BAIDUID=D85812618FC241EA800013BE1D970555:FG=1; Hm_lvt_7a3960b6f067eb0085b7f96ff5e660b0=1559660491; Hm_lpvt_7a3960b6f067eb0085b7f96ff5e660b0=1559660491"
+        "Cookie": "PANWEB=1; BAIDUID=D85812618FC241EA800013BE1D970555:FG=1; Hm_lvt_7a3960b6f067eb0085b7f96ff5e660b0=1559660491; Hm_lpvt_7a3960b6f067eb0085b7f96ff5e660b0=1559660491"
+    }
+    print(headers)
+
+    pick_up_code = "fptt"
+    data = {
+        # pwd=fptt&vcode=&vcode_str=
+        "pwd": pick_up_code,
+        "vcode": "",
+        "vcode_str": ""
+    }
+    print(data)
+
+    # resp = requests.post(url2, data=data, params=params, headers=headers)
+    # resp.encoding = 'UTF-8'
+    # PrintHttpDetails(resp)
     # --
 
 if __name__ == "__main__":

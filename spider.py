@@ -1,8 +1,14 @@
 # pa chong https://pan.baidu.com/share/init?surl=pUZRD5wJOM7iUA4_O-TRSw fptt
 # https://pan.baidu.com/s/1pUZRD5wJOM7iUA4_O-TRSw fptt
 
+import sys
 import requests
+import time
+
+import utils_boot
+
 from bs4 import BeautifulSoup
+from urllib import parse
 
 def PrintHttpDetails(ret):
     print(ret.status_code)
@@ -78,15 +84,14 @@ def TestSpider2():
 
     # --s3: post pick_up_code request
     url2 = "https://pan.baidu.com/share/verify"
-
-    from urllib import parse
     surl = parse.parse_qs(parse.urlparse(url).query)['surl'][0]
-
+    ts13 = int(time.time()*1000)
+    ts10 = int(time.time())
     params = {
         # "surl": "pUZRD5wJOM7iUA4_O-TRSw",
         "surl": surl,
         # "t": "1559704493678",
-        "t": "1559704493678",
+        "t": ts13,
         "channel": "chunlei",
         "web": "1",
         "app_id": "250528",
@@ -130,7 +135,7 @@ def TestSpider2():
     # --
 
 if __name__ == "__main__":
-    import sys
+    
     if sys.argv.__len__() > 1:
         if sys.argv[1] == "1":
             TestSpider1()

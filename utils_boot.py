@@ -26,16 +26,21 @@
       , p = function() {
         return m(g((new Date).getTime()))
     }
-      , w = function(e, n) {
-        return n ? p(String(e)).replace(/[+\/]/g, function(e) {
+    #   , w = function(e, n) {
+    #     return n ? p(String(e)).replace(/[+\/]/g, function(e) {
+    #         return "+" == e ? "-" : "_"
+    #     }).replace(/=/g, "") : p(String(e))
+    # };
+def w(e, n):
+  return n ? p(String(e)).replace(/[+\/]/g, function(e) {
             return "+" == e ? "-" : "_"
         }).replace(/=/g, "") : p(String(e))
-    };
     # !function() {
     #     r(document).ajaxSend(function(e, n, t) {
 # BAIDUID cookie
 def GetLogid(cookie):
-    return w(cookie)
+    i = w(cookie)
+    return i
             # var i = w(s.getCookie("BAIDUID"));
     #         t.url += /\?/.test(t.url) ? "&channel=chunlei&web=1&app_id=250528" : "?channel=chunlei&web=1&app_id=250528",
     #         ("script" !== t.dataType || t.cache !== !0) && (t.url += "&bdstoken=" + o.bdstoken + "&logid=" + i),

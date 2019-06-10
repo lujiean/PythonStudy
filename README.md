@@ -41,5 +41,21 @@ ret = requests.get(url=url, headers=headers, allow_redirects=False)
 9. Python获取URL中参数的方法
 https://blog.csdn.net/weixin_34179762/article/details/86943489
 
+10. File "C:\Users\jiean.a.lu\AppData\Local\Programs\Python\Python37\lib\subprocess.py", line 939, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+  File "C:\Users\jiean.a.lu\AppData\Local\Programs\Python\Python37\lib\subprocess.py", line 1261, in _communicate
+    self._stdin_write(input)
+  File "C:\Users\jiean.a.lu\AppData\Local\Programs\Python\Python37\lib\subprocess.py", line 873, in _stdin_write
+    self.stdin.write(input)
+  File "C:\Users\jiean.a.lu\AppData\Local\Programs\Python\Python37\lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+UnicodeEncodeError: 'charmap' codec can't encode character '\uff01' in position 1324: character maps to <undefined>
+
+https://blog.csdn.net/sergiojune/article/details/88423694
+原因是有一个程序在使用TextIOWrapper 类创建对象时默认使用了cp936的编码，也就是gbk编码，读取不了utf-8的字符，
+所以我们可以修改下 subprocess.py 文件的默认编码方式为utf-8即可
+
+在代码行656有个初始化，直接修改默认即可，如下
+
 Reference Dic
 1. https://2.python-requests.org/en/master/user/quickstart/#make-a-request

@@ -158,13 +158,13 @@ import json
 print("-test execjs-----")
 import execjs
 
-with open("./js/boot.js", "r", encoding="UTF-8") as f:
+with open("./js/test.js", "r", encoding="UTF-8") as f:
     content = f.read()
 ctx = execjs.compile(content)
-print(ctx.call("Getlogid", "D85812618FC241EA800013BE1D970555:FG=1"))
+print(ctx.call("testJSFunc1", "a", "b"))
 # print(content)
 
 print("-test beauti-----")
-s="'\n{"errno":0,"err_msg":"","request_id":249609282089505580,"randsk":"hSsksGDHeTYSAu2txg7Kf2tiyhJe9jPOm5MgJ0N%2FwiI%3D"}'
-"
+# s="'\n{"errno":0,"err_msg":"","request_id":249609282089505580,"randsk":"hSsksGDHeTYSAu2txg7Kf2tiyhJe9jPOm5MgJ0N%2FwiI%3D"}'
+# "
 

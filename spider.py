@@ -11,8 +11,11 @@ from bs4 import BeautifulSoup
 from urllib import parse
 
 def PrintHttpDetails(ret):
+    print("------response status code-------")
     print(ret.status_code)
+    print("-------response headers-----")
     print(ret.headers)
+    print("-------response text-----")
     print(ret.text)
 
 def GetCookieStrFromDict(dict):
@@ -174,9 +177,61 @@ def TestSpider2():
     resp = requests.post(url, proxies=proxy, headers=headers)
     resp.encoding = 'UTF-8'
 
-    soup = BeautifulSoup(resp.text, "html.parser")
-    print(soup.prettify())
+    # soup = BeautifulSoup(resp.text, "html.parser")
+    # print(soup.prettify())
     # PrintHttpDetails(resp)
+    # --
+
+    # s5--
+    logid2 = ctx.call("Getlogid", cookieDict["BAIDUID"])
+    params = {
+        "uk":"1862740414",
+        "shareid":"136149483",
+        "order":"other",
+        "desc":"1",
+        "showempty":"0",
+        "web":"1",
+        "page":"1",
+        "num":"100",
+        "dir":"/幪面超人Build",
+        "t":"0.5237814128347804",
+        "channel":"chunlei",
+        "web":"1",
+        "app_id":"250528",
+        "bdstoken":"null",
+        "logid":logid2,
+        "clienttype": "0"
+    }
+
+    cookieDict["cflag"] = "13%3A3"
+    ts10_2 = str(int(time.time()))
+    cookieDict["Hm_lpvt_7a3960b6f067eb0085b7f96ff5e660b0"]=ts10_2
+    cookie = GetCookieStrFromDict(cookieDict)
+    headers = {
+        "Host": "pan.baidu.com",
+        "Connection": "keep-alive",
+        "Accept": "application/json, text/javascript, */*; q=0.01",
+        "X-Requested-With": "XMLHttpRequest",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36",
+        # "Referer": "https://pan.baidu.com/s/1pUZRD5wJOM7iUA4_O-TRSw",
+        "Referer": url,
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "zh-CN,zh;q=0.9",
+        # "Cookie": "PANWEB=1; BAIDUID=D85812618FC241EA800013BE1D970555:FG=1; Hm_lvt_7a3960b6f067eb0085b7f96ff5e660b0=1559660491; BDCLND=hSsksGDHeTYSAu2txg7Kf2tiyhJe9jPOm5MgJ0N%2FwiI%3D; Hm_lpvt_7a3960b6f067eb0085b7f96ff5e660b0=1560172897; cflag=13%3A3"
+        "Cookie": cookie
+    }
+
+    url4 = "https://pan.baidu.com/share/list"
+    resp = requests.get(url4, proxies=proxy, params=params, headers=headers)
+    resp.encoding = 'UTF-8'
+
+    # soup = BeautifulSoup(resp.text, "html.parser")
+    # print(soup.prettify())
+    # PrintHttpDetails(resp)
+    print(resp.status_code)
+    jsontext = json.loads(resp.text,encoding="UTF-8")
+    for i in jsontext.get('list')[:]:
+        print(i["server_filename"])
     # --
 
 if __name__ == "__main__":

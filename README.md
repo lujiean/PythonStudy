@@ -57,5 +57,16 @@ https://blog.csdn.net/sergiojune/article/details/88423694
 
 在代码行656有个初始化，直接修改默认即可，如下
 
+11. python读写json文件
+https://www.cnblogs.com/bigberg/p/6430095.html
+
+12. python--自动创建文件和创建目录的方法
+https://blog.csdn.net/liuyingying0418/article/details/84633603
+https://www.cnblogs.com/jhao/p/7243043.html
+
+13. python自动发邮件总结及实例说明
+https://www.cnblogs.com/yufeihlf/p/5726619.html
+
+
 Reference Dic
 1. https://2.python-requests.org/en/master/user/quickstart/#make-a-request

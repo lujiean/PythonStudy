@@ -1,0 +1,15 @@
+create JSON file store below config.
+
+filename: 
+spider.cfg
+
+fileformat:
+{
+    "url":"XXXXX",
+    "pickup":"XXXX",
+    "email":{
+        "username":"XXXXX@163.com",
+        "passwd":"XXXXX!",
+        "receiver":"XXXXXX@qq.com"
+    }
+}

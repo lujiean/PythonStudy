@@ -65,10 +65,10 @@ set_a = {"a", "b", "a"}
 print(set_a)
 
 print("-moduls-----")
-import utils
-utils.CommFunc1(4,6)
+import testutils
+testutils.CommFunc1(4,6)
 
-newNameCommFunc1 = utils.CommFunc1
+newNameCommFunc1 = testutils.CommFunc1
 newNameCommFunc1(7,0)
 
 print("-main func-----")
@@ -139,10 +139,10 @@ for k, v in dict4.items():
 
 # Reading and Writing Files
 print("-Reading and Writing Files-----")
-f=open('utils.py', 'r')
+f=open('testutils.py', 'r')
 print(f.read())
 f.close()
-with open('utils.py', 'r') as f:
+with open('testutils.py', 'r') as f:
     str = f.read()
     print(str)
 
@@ -180,3 +180,41 @@ list1 = jsontext.get('list')
 
 for i in list1[:]:
     print(i["server_filename"])
+
+print("-test folder-----")
+import os
+if not os.path.exists("./folder1"):
+    os.makedirs("./folder1")
+with open("./folder1/1.log",'w') as f:
+    f.write("hello, in folder files")
+
+# with open("./outKRlist.json","r") as f:
+#     jsontext = json.load(f)
+# jsontext = jsontext["list"]
+# for i in jsontext.items():
+#     print([""])
+
+with open("./config/spider.cfg", "r", encoding="UTF-8") as f:
+    text = json.load(f)
+print(text)
+
+print("--test send email-----")
+import smtplib, email
+
+with open("./config/spider.cfg","r", encoding="UTF-8") as f:
+    cfgText = json.load(f)
+    username = cfgText["email"]["username"]
+    passwd = cfgText["email"]["passwd"]
+    receiver = cfgText["email"]["receiver"]
+
+# try:
+smtp = smtplib.SMTP_SSL("smtp.163.com", 994)
+# smtp.connect('smtp.163.com,25')
+# smtp.connect(host="smtp.163.com",port=25)
+smtp.login(username, passwd)
+sender = username
+
+smtp.sendmail(sender, receiver, "this is a test email")
+smtp.quit()
+# except Exception:
+#     pass

@@ -6,31 +6,11 @@ import requests
 import time
 import execjs
 import json
+import os
 
 from bs4 import BeautifulSoup
 from urllib import parse
-
-def PrintHttpDetails(ret):
-    print("------response status code-------")
-    print(ret.status_code)
-    print("-------response headers-----")
-    print(ret.headers)
-    print("-------response text-----")
-    print(ret.text)
-
-def GetCookieStrFromDict(dict):
-    str=''
-    # print(resp.cookies)
-    for k,v in dict.items():
-        str = str + k + "=" + v + ";"
-        # str = print("{0}{1}={2};".format(str, k, v))
-    return str[0:len(str)-1]
-
-def GetCookieDict(resp):
-    dict={}
-    for i in resp.cookies:
-        dict[i.name]=i.value
-    return dict
+from utils import spiderutils
 
 def TestSpider1():
     # proxy={'http':'http://127.0.0.1:8888', 'https':'https://127.0.0.1:8888'}
@@ -51,11 +31,23 @@ def TestSpider1():
         print(l.get_text())
 
 def TestSpider2():
+    #read config file
+    cfgFile = "./config/spider.cfg"
+    if not os.path.isfile(cfgFile):
+        with open(cfgFile, "w", encoding="UTF-8") as f:
+            f.write("")
+        print("not found config file. setup as ./config/README do")
+        return
+    else:
+        with open(cfgFile,"r", encoding="UTF-8") as f:
+            cfgText = json.load(f)
+        url = cfgText["url"]
+        pick_up_code = cfgText["pickup"]
     # proxy={'http':'http://127.0.0.1:8888', 'https':'https://127.0.0.1:8888'}
     proxy={}
 
     # --s1 
-    url="https://pan.baidu.com/s/1pUZRD5wJOM7iUA4_O-TRSw"
+    # url="https://pan.baidu.com/s/1pUZRD5wJOM7iUA4_O-TRSw"
     headers = {
         "Host": "pan.baidu.com",
         "Connection": "keep-alive",
@@ -76,8 +68,8 @@ def TestSpider2():
     # --
 
     # --s2
-    cookieDict = GetCookieDict(resp)
-    cookie = GetCookieStrFromDict(cookieDict)
+    cookieDict = spiderutils.GetCookieDict(resp)
+    cookie = spiderutils.GetCookieStrFromDict(cookieDict)
     # print(str)
     headers = {
         "Host": "pan.baidu.com",
@@ -123,7 +115,7 @@ def TestSpider2():
     # Hm_lvt_7a3960b6f067eb0085b7f96ff5e660b0=1559660491; Hm_lpvt_7a3960b6f067eb0085b7f96ff5e660b0=1559660491"
     cookieDict["Hm_lvt_7a3960b6f067eb0085b7f96ff5e660b0"]=ts10
     cookieDict["Hm_lpvt_7a3960b6f067eb0085b7f96ff5e660b0"]=ts10
-    cookie = GetCookieStrFromDict(cookieDict)
+    cookie = spiderutils.GetCookieStrFromDict(cookieDict)
     headers = {
         "Host": "pan.baidu.com",
         "Connection": "keep-alive",
@@ -142,7 +134,7 @@ def TestSpider2():
     }
     # print(headers)
 
-    pick_up_code = "fptt"
+    # pick_up_code = "fptt"
     data = {
         # pwd=fptt&vcode=&vcode_str=
         "pwd": pick_up_code,
@@ -159,7 +151,7 @@ def TestSpider2():
 
     # s4--
     cookieDict["BDCLND"] = randsk
-    cookie = GetCookieStrFromDict(cookieDict)
+    cookie = spiderutils.GetCookieStrFromDict(cookieDict)
     headers = {
         "Host": "pan.baidu.com",
         "Connection": "keep-alive",
@@ -206,7 +198,7 @@ def TestSpider2():
     cookieDict["cflag"] = "13%3A3"
     ts10_2 = str(int(time.time()))
     cookieDict["Hm_lpvt_7a3960b6f067eb0085b7f96ff5e660b0"]=ts10_2
-    cookie = GetCookieStrFromDict(cookieDict)
+    cookie = spiderutils.GetCookieStrFromDict(cookieDict)
     headers = {
         "Host": "pan.baidu.com",
         "Connection": "keep-alive",
@@ -227,12 +219,57 @@ def TestSpider2():
 
     # soup = BeautifulSoup(resp.text, "html.parser")
     # print(soup.prettify())
-    # PrintHttpDetails(resp)
-    print(resp.status_code)
-    jsontext = json.loads(resp.text,encoding="UTF-8")
-    for i in jsontext.get('list')[:]:
-        print(i["server_filename"])
+    spiderutils.PrintHttpDetails(resp)
+    # print(resp.status_code)
+    #--
+
+    #-- save JSON
+    jsonDict = json.loads(resp.text,encoding="UTF-8")
+    # del jsonDict['request_id']
+    # del jsonDict['server_time']
+    # for i in jsonDict.get('list')[:]:
+    #     print(i["server_filename"])
+    jPath = "./json"
+    if not os.path.exists(jPath):
+        os.makedirs(jPath)
+    jFileName = jPath + "/outKRlist.json"
+
+    # check old list
+    if os.path.isfile(jFileName):
+        # file exists
+        with open(jFileName, "r", encoding="UTF-8") as f:
+            jloadDict = json.load(f)
+        #compare different
+        # nfl = jsonDict["list"]
+        l = []
+        for i in jsonDict["list"]:
+            l.append(i["path"])
+        nset = set(l)
+
+        # ofl = jloadDict["list"]
+        l = []
+        for i in jloadDict["list"]:
+            l.append(i["path"])
+        oset = set(l)
+
+        diffset = nset - oset
+        #--
+        
+        if len(diffset) == 0:
+            print("No change")
+        else:
+            print("Been changed")
+            print(diffset)
+            #update file
+            with open(jFileName, "w", encoding="UTF-8") as f:
+                json.dump(jsonDict, f)
+    else:
+        # file not exists
+        with open(jFileName, "w", encoding="UTF-8") as f:
+            json.dump(jsonDict, f)
+
     # --
+    return
 
 if __name__ == "__main__":
     

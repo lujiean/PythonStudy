@@ -199,7 +199,9 @@ with open("./config/spider.cfg", "r", encoding="UTF-8") as f:
 print(text)
 
 print("--test send email-----")
-import smtplib, email
+import smtplib
+from email.mime.text import MIMEText
+from email.header import Header
 
 with open("./config/spider.cfg","r", encoding="UTF-8") as f:
     cfgText = json.load(f)
@@ -208,13 +210,19 @@ with open("./config/spider.cfg","r", encoding="UTF-8") as f:
     receiver = cfgText["email"]["receiver"]
 
 # try:
-smtp = smtplib.SMTP_SSL("smtp.163.com", 994)
+smtp = smtplib.SMTP_SSL("smtp.163.com", 465)
 # smtp.connect('smtp.163.com,25')
 # smtp.connect(host="smtp.163.com",port=25)
 smtp.login(username, passwd)
 sender = username
 
-smtp.sendmail(sender, receiver, "this is a test email")
+msg = MIMEText('Karman rider update','plain','utf-8')
+msg['From'] = 'KrBuildUpdate<'+ sender + '>'
+msg['To'] = 'pyto<'+ receiver + '>'
+subject = 'Karmen Rider update'
+msg['Subject'] = Header(subject,'utf-8') 
+
+smtp.sendmail(sender, receiver, msg.as_string())
 smtp.quit()
 # except Exception:
 #     pass

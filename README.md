@@ -66,7 +66,7 @@ https://www.cnblogs.com/jhao/p/7243043.html
 
 13. python自动发邮件总结及实例说明
 https://www.cnblogs.com/yufeihlf/p/5726619.html
-
+https://blog.csdn.net/weixin_41789943/article/details/82348946
 
 Reference Dic
 1. https://2.python-requests.org/en/master/user/quickstart/#make-a-request

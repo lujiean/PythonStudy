@@ -198,31 +198,51 @@ with open("./config/spider.cfg", "r", encoding="UTF-8") as f:
     text = json.load(f)
 print(text)
 
-print("--test send email-----")
-import smtplib
-from email.mime.text import MIMEText
-from email.header import Header
+mail_test = "N"
+if mail_test == "Y":
+    print("--test send email-----")
+    import smtplib
+    from email.mime.text import MIMEText
+    from email.header import Header
 
-with open("./config/spider.cfg","r", encoding="UTF-8") as f:
-    cfgText = json.load(f)
-    username = cfgText["email"]["username"]
-    passwd = cfgText["email"]["passwd"]
-    receiver = cfgText["email"]["receiver"]
+    with open("./config/spider.cfg","r", encoding="UTF-8") as f:
+        cfgText = json.load(f)
+        username = cfgText["email"]["username"]
+        passwd = cfgText["email"]["passwd"]
+        receiver = cfgText["email"]["receiver"]
 
-# try:
-smtp = smtplib.SMTP_SSL("smtp.163.com", 465)
-# smtp.connect('smtp.163.com,25')
-# smtp.connect(host="smtp.163.com",port=25)
-smtp.login(username, passwd)
-sender = username
+    # try:
+    smtp = smtplib.SMTP_SSL("smtp.163.com", 465)
+    # smtp.connect('smtp.163.com,25')
+    # smtp.connect(host="smtp.163.com",port=25)
+    smtp.login(username, passwd)
+    sender = username
 
-msg = MIMEText('Karman rider update','plain','utf-8')
-msg['From'] = 'KrBuildUpdate<'+ sender + '>'
-msg['To'] = 'pyto<'+ receiver + '>'
-subject = 'Karmen Rider update'
-msg['Subject'] = Header(subject,'utf-8') 
+    msg = MIMEText('Karman rider update','plain','utf-8')
+    msg['From'] = 'KrBuildUpdate<'+ sender + '>'
+    msg['To'] = 'pyto<'+ receiver + '>'
+    subject = 'Karmen Rider update'
+    msg['Subject'] = Header(subject,'utf-8') 
 
-smtp.sendmail(sender, receiver, msg.as_string())
-smtp.quit()
-# except Exception:
-#     pass
+    smtp.sendmail(sender, receiver, msg.as_string())
+    smtp.quit()
+    # except Exception:
+    #     pass
+
+set1 = {'a','b'}
+set2 = {'a'}
+
+set_diff = set1 - set2
+print(set_diff)
+
+
+a_list = [{'a' : 1}, {'b' : 2}, {'c' : 3}, {'d' : 4}, {'e' : 5}]
+b_list = [{'a' : 1}, {'b' : 2}]
+ret_list = []
+for item in a_list:
+    if item not in b_list:
+        ret_list.append(item)
+for item in b_list:
+    if item not in a_list:
+        ret_list.append(item)
+print(ret_list)

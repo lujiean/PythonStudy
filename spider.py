@@ -7,10 +7,13 @@ import time
 import execjs
 import json
 import os
+import smtplib
 
 from bs4 import BeautifulSoup
 from urllib import parse
 from utils import spiderutils
+from email.mime.text import MIMEText
+from email.header import Header
 
 def TestSpider1():
     # proxy={'http':'http://127.0.0.1:8888', 'https':'https://127.0.0.1:8888'}
@@ -219,7 +222,7 @@ def TestSpider2():
 
     # soup = BeautifulSoup(resp.text, "html.parser")
     # print(soup.prettify())
-    spiderutils.PrintHttpDetails(resp)
+    # spiderutils.PrintHttpDetails(resp)
     # print(resp.status_code)
     #--
 
@@ -241,25 +244,41 @@ def TestSpider2():
             jloadDict = json.load(f)
         #compare different
         # nfl = jsonDict["list"]
-        l = []
+        difflist = []
         for i in jsonDict["list"]:
-            l.append(i["path"])
-        nset = set(l)
-
-        # ofl = jloadDict["list"]
-        l = []
-        for i in jloadDict["list"]:
-            l.append(i["path"])
-        oset = set(l)
-
-        diffset = nset - oset
+            if i not in jloadDict["list"]:
+                difflist.append(i)
         #--
         
-        if len(diffset) == 0:
+        if difflist.__len__() == 0:
             print("No change")
         else:
             print("Been changed")
-            print(diffset)
+            print(difflist.__str__())
+            subject = ""
+            for i in difflist:
+                subject = subject + i["path"] + ","
+            #send notification email
+            with open("./config/spider.cfg","r", encoding="UTF-8") as f:
+                cfgText = json.load(f)
+                username = cfgText["email"]["username"]
+                passwd = cfgText["email"]["passwd"]
+                receiver = cfgText["email"]["receiver"]
+
+            # try:
+            smtp = smtplib.SMTP_SSL("smtp.163.com", 465)
+            smtp.login(username, passwd)
+            sender = username
+
+            msg = MIMEText(difflist.__str__(),'plain','utf-8')
+            msg['From'] = 'DuPanUpdate<'+ sender + '>'
+            msg['To'] = 'pyto<'+ receiver + '>'
+            subject = 'DuPanUpdate: ' + subject
+            msg['Subject'] = Header(subject,'utf-8') 
+
+            smtp.sendmail(sender, receiver, msg.as_string())
+            smtp.quit()
+
             #update file
             with open(jFileName, "w", encoding="UTF-8") as f:
                 json.dump(jsonDict, f)

@@ -290,7 +290,7 @@ def TestSpider2():
             sender = username
 
             msg = MIMEText(difflist.__str__(),'plain','utf-8')
-            msg['From'] = 'DuPanUpdate<'+ sender + '>'
+            msg['From'] = 'z136604<'+ sender + '>'
             msg['To'] = 'pyto<'+ receiver + '>'
             subject = 'DuPanUpdate: ' + subject
             msg['Subject'] = Header(subject,'utf-8') 

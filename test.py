@@ -246,3 +246,11 @@ for item in b_list:
     if item not in a_list:
         ret_list.append(item)
 print(ret_list)
+
+print("--test logging------")
+import logging
+import time
+logging.basicConfig(filename="./log/test.log", level="INFO")
+# logging.warning("this is a warnning")
+logging.info("this is a info")
+logging.info(time.asctime())

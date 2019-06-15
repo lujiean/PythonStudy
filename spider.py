@@ -8,6 +8,7 @@ import execjs
 import json
 import os
 import smtplib
+import logging
 
 from bs4 import BeautifulSoup
 from urllib import parse
@@ -34,6 +35,14 @@ def TestSpider1():
         print(l.get_text())
 
 def TestSpider2():
+    #log file
+    if not os.path.isdir("./log"):
+        os.makedirs("./log")
+    fh = logging.FileHandler(filename="./log/spider.log", encoding="UTF-8")
+    logging.basicConfig(level=logging.INFO, handlers=[fh])
+    #--
+    logging.info("===spider2 start===")
+    logging.info(time.asctime())
     #read config file
     cfgFile = "./config/spider.cfg"
     if not os.path.isfile(cfgFile):
@@ -46,6 +55,9 @@ def TestSpider2():
             cfgText = json.load(f)
         url = cfgText["url"]
         pick_up_code = cfgText["pickup"]
+        username = cfgText["email"]["username"]
+        passwd = cfgText["email"]["passwd"]
+        receiver = cfgText["email"]["receiver"]
     # proxy={'http':'http://127.0.0.1:8888', 'https':'https://127.0.0.1:8888'}
     proxy={}
 
@@ -68,6 +80,7 @@ def TestSpider2():
     if resp.status_code == 302 and 'Location' in resp.headers:
         url3=resp.headers['Location']
     # print(url)    
+    logging.info(resp.status_code)
     # --
 
     # --s2
@@ -87,6 +100,7 @@ def TestSpider2():
     resp = requests.get(url3, proxies=proxy, headers=headers, allow_redirects=False)
     resp.encoding = 'UTF-8'
     # PrintHttpDetails(resp)
+    logging.info(resp.status_code)
     # --
 
     # --s3: post pick_up_code request
@@ -150,6 +164,7 @@ def TestSpider2():
     resp.encoding = 'UTF-8'
     # PrintHttpDetails(resp)
     randsk=json.loads(resp.text, encoding='UTF-8').get('randsk')
+    logging.info(resp.status_code)
     # --
 
     # s4--
@@ -224,6 +239,7 @@ def TestSpider2():
     # print(soup.prettify())
     # spiderutils.PrintHttpDetails(resp)
     # print(resp.status_code)
+    logging.info(resp.status_code)
     #--
 
     #-- save JSON
@@ -251,19 +267,22 @@ def TestSpider2():
         #--
         
         if difflist.__len__() == 0:
-            print("No change")
+            # print("No change")
+            logging.info("No change")
         else:
-            print("Been changed")
-            print(difflist.__str__())
+            # print("Been changed")
+            # logging.info("Been changed")
+            logging.info("Been changed:{0}".format(difflist.__str__()))
+            # logging.info("")
             subject = ""
             for i in difflist:
                 subject = subject + i["path"] + ","
             #send notification email
-            with open("./config/spider.cfg","r", encoding="UTF-8") as f:
-                cfgText = json.load(f)
-                username = cfgText["email"]["username"]
-                passwd = cfgText["email"]["passwd"]
-                receiver = cfgText["email"]["receiver"]
+            # with open("./config/spider.cfg","r", encoding="UTF-8") as f:
+            #     cfgText = json.load(f)
+            #     username = cfgText["email"]["username"]
+            #     passwd = cfgText["email"]["passwd"]
+            #     receiver = cfgText["email"]["receiver"]
 
             # try:
             smtp = smtplib.SMTP_SSL("smtp.163.com", 465)
@@ -288,6 +307,8 @@ def TestSpider2():
             json.dump(jsonDict, f)
 
     # --
+    logging.info("===spider2 end===")
+    logging.info(time.asctime())
     return
 
 if __name__ == "__main__":

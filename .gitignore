@@ -108,3 +108,4 @@ venv.bak/
 
 # user config
 /config/*.cfg
+/log

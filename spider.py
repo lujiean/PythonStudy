@@ -34,21 +34,20 @@ def TestSpider1():
     for l in links:
         print(l.get_text())
 
-def TestSpider2():
-    #log file
-    if not os.path.isdir("./log"):
-        os.makedirs("./log")
-    fh = logging.FileHandler(filename="./log/spider.log", encoding="UTF-8")
-    logging.basicConfig(level=logging.INFO, handlers=[fh])
-    #--
-    logging.info("===spider2 start===")
-    logging.info(time.asctime())
+def TestSpider2(rootPath):
+
     #read config file
-    cfgFile = "./config/spider.cfg"
+    if len(rootPath) == 0:
+        print("input root path as arg 2")
+        return
+    else:
+        cwd=rootPath
+    # cfgFile = "./config/spider.cfg"
+    cfgFile = cwd + "/config/spider.json"
     if not os.path.isfile(cfgFile):
         with open(cfgFile, "w", encoding="UTF-8") as f:
             f.write("")
-        print("not found config file. setup as ./config/README do")
+        print("not found config file. setup as " + cwd +"/config/README do")
         return
     else:
         with open(cfgFile,"r", encoding="UTF-8") as f:
@@ -58,6 +57,16 @@ def TestSpider2():
         username = cfgText["email"]["username"]
         passwd = cfgText["email"]["passwd"]
         receiver = cfgText["email"]["receiver"]
+
+    #log file
+    if not os.path.isdir(cwd + "/log"):
+        os.makedirs(cwd + "/log")
+    fh = logging.FileHandler(filename=cwd + "/log/spider.log", encoding="UTF-8")
+    logging.basicConfig(level=logging.INFO, handlers=[fh])
+    #--
+    logging.info("===spider2 start===")
+    logging.info(time.asctime())
+
     # proxy={'http':'http://127.0.0.1:8888', 'https':'https://127.0.0.1:8888'}
     proxy={}
 
@@ -109,7 +118,7 @@ def TestSpider2():
     ts13 = str(int(time.time()*1000))
     ts10 = str(int(time.time()))
 
-    with open("./js/boot.js", "r", encoding="UTF-8") as f:
+    with open(cwd + "/js/boot.js", "r", encoding="UTF-8") as f:
         content = f.read()
     ctx = execjs.compile(content)
     logid = ctx.call("Getlogid", cookieDict["BAIDUID"])
@@ -248,7 +257,7 @@ def TestSpider2():
     # del jsonDict['server_time']
     # for i in jsonDict.get('list')[:]:
     #     print(i["server_filename"])
-    jPath = "./json"
+    jPath = cwd + "/json"
     if not os.path.exists(jPath):
         os.makedirs(jPath)
     jFileName = jPath + "/outKRlist.json"
@@ -317,7 +326,7 @@ if __name__ == "__main__":
         if sys.argv[1] == "1":
             TestSpider1()
         elif sys.argv[1] == "2":
-            TestSpider2()
+            TestSpider2(sys.argv[2])
     else:
         print("need input paramers")    
 else:

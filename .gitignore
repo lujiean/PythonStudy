@@ -107,5 +107,6 @@ venv.bak/
 .vscode/
 
 # user config
-/config/*.cfg
+/config/*.json
 /log
+/json

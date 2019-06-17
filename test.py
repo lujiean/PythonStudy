@@ -194,7 +194,7 @@ with open("./folder1/1.log",'w') as f:
 # for i in jsontext.items():
 #     print([""])
 
-with open("./config/spider.cfg", "r", encoding="UTF-8") as f:
+with open("./config/pand.baidu.com/config.json", "r", encoding="UTF-8") as f:
     text = json.load(f)
 print(text)
 

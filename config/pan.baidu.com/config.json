@@ -1,0 +1,111 @@
+{
+    "proxy":"",
+    "step1":{
+        "request_type": "GET",
+        "url": "[pending]",
+        "headers":{
+            "Host": "pan.baidu.com",
+            "Connection": "keep-alive",
+            "Upgrade-Insecure-Requests": "1",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3",
+            "Accept-Encoding": "gzip, deflate, br",
+            "Accept-Language": "zh-CN,zh;q=0.9"
+        },
+        "allow_redirects": false
+    },
+    "step2":{
+        "request_type": "GET",
+        "url": "[pending]",
+        "headers":{
+            "Host": "pan.baidu.com",
+            "Connection": "keep-alive",
+            "Upgrade-Insecure-Requests": "1",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3",
+            "Accept-Encoding": "gzip, deflate, br",
+            "Accept-Language": "zh-CN,zh;q=0.9",
+            "Cookie": "[pending]"
+        }
+    },
+    "step3":{
+        "request_type": "POST",
+        "url": "https://pan.baidu.com/share/verify",
+        "params":{
+            "surl": "[pending]",
+            "t": "[pending]",
+            "channel": "chunlei",
+            "web": "1",
+            "app_id": "250528",
+            "bdstoken": "null",
+            "logid": "[pending]",
+            "clienttype": "0"
+        },
+        "headers":{
+            "Host": "pan.baidu.com",
+            "Connection": "keep-alive",
+            "Content-Length": "26",
+            "Accept": "*/*",
+            "Origin": "https://pan.baidu.com",
+            "X-Requested-With": "XMLHttpRequest",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36",
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+            "Referer": "[pending]",
+            "Accept-Encoding": "gzip, deflate, br",
+            "Accept-Language": "zh-CN,zh;q=0.9",
+            "Cookie": "[pending]"
+        },
+        "data":{
+            "pwd": "[pending]",
+            "vcode": "",
+            "vcode_str": ""
+        }
+    },
+    "step4":{
+        "request_type":"GET",
+        "url":"[pending]",
+        "headers":{
+            "Host": "pan.baidu.com",
+            "Connection": "keep-alive",
+            "Upgrade-Insecure-Requests": "1",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3",
+            "Referer": "[pending]",
+            "Accept-Encoding": "gzip, deflate, br",
+            "Accept-Language": "zh-CN,zh;q=0.9",
+            "Cookie": "[pending]"
+        }
+    },
+    "step5":{
+        "request_type":"GET",
+        "url":"https://pan.baidu.com/share/list",
+        "params":{
+            "uk":"1862740414",
+            "shareid":"136149483",
+            "order":"other",
+            "desc":"1",
+            "showempty":"0",
+            "web":"1",
+            "page":"1",
+            "num":"100",
+            "dir":"/幪面超人Build",
+            "t":"0.5237814128347804",
+            "channel":"chunlei",
+            "app_id":"250528",
+            "bdstoken":"null",
+            "logid":"[pending]",
+            "clienttype": "0"
+        },
+        "headers":{
+            "Host": "pan.baidu.com",
+            "Connection": "keep-alive",
+            "Accept": "application/json, text/javascript, */*; q=0.01",
+            "X-Requested-With": "XMLHttpRequest",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36",
+            "Referer": "[pending]",
+            "Accept-Encoding": "gzip, deflate, br",
+            "Accept-Language": "zh-CN,zh;q=0.9",
+            "Cookie": "[pending]"
+        }
+    }
+}

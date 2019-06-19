@@ -62,7 +62,7 @@
             "vcode_str": ""
         }
     },
-    "X2":{
+    "step4":{
         "request_type":"GET",
         "url":"[pending]",
         "headers":{
@@ -81,15 +81,15 @@
         "request_type":"GET",
         "url":"https://pan.baidu.com/share/list",
         "params":{
-            "uk":"1862740414",
-            "shareid":"136149483",
+            "uk":"[pending]",
+            "shareid":"[pending]",
             "order":"other",
             "desc":"1",
             "showempty":"0",
             "web":"1",
             "page":"1",
             "num":"100",
-            "dir":"/幪面超人Build",
+            "dir":"[pending]",
             "t":"0.5237814128347804",
             "channel":"chunlei",
             "app_id":"250528",

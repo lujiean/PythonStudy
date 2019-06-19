@@ -9,6 +9,7 @@ import json
 import os
 import smtplib
 import logging
+import re
 
 from bs4 import BeautifulSoup
 from urllib import parse
@@ -169,6 +170,26 @@ def TestSpider2(rootPath):
                             headers=dupanConfig[curStep]["headers"])
         resp.encoding = 'UTF-8'
         logging.info(resp.status_code)
+
+        #--
+        soup = BeautifulSoup(resp.text, "html.parser")
+        links = soup.find_all(name="script", attrs={"type": "text/javascript"})
+        jsAssignDict={}
+        for l in links:
+            li=re.findall(r'yunData.SHARE_UK = .*;',l.get_text())
+            if len(li) > 0:
+                li = li[0].replace("=","").replace("\\","").split('"')
+                jsAssignDict[li[0].strip()]=li[1].strip()
+            li=re.findall(r'yunData.SHARE_ID = .*;',l.get_text())
+            if len(li) > 0:
+                li = li[0].replace("=","").replace("\\","").split('"')
+                jsAssignDict[li[0].strip()]=li[1].strip()
+            li=re.findall(r'yunData.PATH = .*;',l.get_text())
+            if len(li) > 0:
+                li = li[0].replace("=","").replace("\\","").split('"')
+                jsAssignDict[li[0].strip()]=li[1].strip()
+
+        print(jsAssignDict)
     else:
         logging.info("No "+curStep)
     # --
@@ -179,6 +200,10 @@ def TestSpider2(rootPath):
         #--params
         logid2 = ctx.call("Getlogid", cookieDict["BAIDUID"])
         dupanConfig[curStep]["params"]["logid"]=logid2
+
+        dupanConfig[curStep]["params"]["uk"]=jsAssignDict["yunData.SHARE_UK"]
+        dupanConfig[curStep]["params"]["shareid"]=jsAssignDict["yunData.SHARE_ID"]
+        dupanConfig[curStep]["params"]["dir"]=jsAssignDict["yunData.PATH"]
 
         #--headers
         cookieDict["cflag"] = "13%3A3"

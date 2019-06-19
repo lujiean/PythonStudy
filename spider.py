@@ -189,7 +189,7 @@ def TestSpider2(rootPath):
                 li = li[0].replace("=","").replace("\\","").split('"')
                 jsAssignDict[li[0].strip()]=li[1].strip()
 
-        print(jsAssignDict)
+        # print(jsAssignDict)
     else:
         logging.info("No "+curStep)
     # --

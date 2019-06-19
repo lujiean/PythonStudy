@@ -194,7 +194,7 @@ with open("./folder1/1.log",'w') as f:
 # for i in jsontext.items():
 #     print([""])
 
-with open("./config/spider.cfg", "r", encoding="UTF-8") as f:
+with open("./config/pan.baidu.com/config.json", "r", encoding="UTF-8") as f:
     text = json.load(f)
 print(text)
 
@@ -254,3 +254,31 @@ logging.basicConfig(filename="./log/test.log", level="INFO")
 # logging.warning("this is a warnning")
 logging.info("this is a info")
 logging.info(time.asctime())
+
+print("--test beautysoup4----")
+from bs4 import BeautifulSoup
+import re
+with open("./log/test.html","r",encoding="UTF8") as f:
+    text = f.read()
+
+soup = BeautifulSoup(text, "html.parser")
+# print(soup.prettify())
+
+print("------")
+links = soup.find_all(name="script", attrs={"type": "text/javascript"})
+jsAssignDict={}
+for l in links:
+    li=re.findall(r'yunData.SHARE_UK = .*;',l.get_text())
+    if len(li) > 0:
+        li = li[0].replace("=","").replace("\\","").split('"')
+        jsAssignDict[li[0].strip()]=li[1].strip()
+    li=re.findall(r'yunData.SHARE_ID = .*;',l.get_text())
+    if len(li) > 0:
+        li = li[0].replace("=","").replace("\\","").split('"')
+        jsAssignDict[li[0].strip()]=li[1].strip()
+    li=re.findall(r'yunData.PATH = .*;',l.get_text())
+    if len(li) > 0:
+        li = li[0].replace("=","").replace("\\","").split('"')
+        jsAssignDict[li[0].strip()]=li[1].strip()
+
+print(jsAssignDict)

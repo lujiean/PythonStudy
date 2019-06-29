@@ -35,42 +35,49 @@ def TestSpider1():
     for l in links:
         print(l.get_text())
 
-def TestSpider2(rootPath):
+def TestSpider2(configFile):
 
     #read config file
-    if len(rootPath) == 0:
+    if len(configFile) == 0:
         print("input root path as arg 2")
         return
     else:
-        cwd=rootPath
+        cfgFile=configFile
     # cfgFile = "./config/spider.cfg"
-    cfgFile = cwd + "/config/usr/spider.json"
+    # cfgFile = cwd + "/config/usr/spider.json"
     if not os.path.isfile(cfgFile):
         with open(cfgFile, "w", encoding="UTF-8") as f:
             f.write("")
-        print("not found config file. setup as " + cwd +"/config/usr/README do")
+        print("not found config file. setup as /config/usr/README do")
         return
     else:
         with open(cfgFile,"r", encoding="UTF-8") as f:
             cfgText = json.load(f)
+        title = cfgText["title"]
         url = cfgText["url"]
         pick_up_code = cfgText["pickup"]
         username = cfgText["email"]["username"]
         passwd = cfgText["email"]["passwd"]
         receiver = cfgText["email"]["receiver"]
+        jsPath = cfgText["jsPath"]
+        logFile = cfgText["logFile"]
+        configFile = cfgText["configFile"]
+        outFile = cfgText["outFile"]
 
     #log file
-    if not os.path.isdir(cwd + "/log"):
-        os.makedirs(cwd + "/log")
-    fh = logging.FileHandler(filename=cwd + "/log/spider.log", encoding="UTF-8")
+    if not os.path.isdir(os.path.dirname(logFile)):
+        os.makedirs(os.path.dirname(logFile))
+    fh = logging.FileHandler(filename=logFile, encoding="UTF-8")
     logging.basicConfig(level=logging.INFO, handlers=[fh])
 
     #pan.baidu.com config
-    with open(cwd + "/config/pan.baidu.com/config.json", "r", encoding='UTF-8') as f:
+    with open(configFile, "r", encoding='UTF-8') as f:
         dupanConfig = json.load(f)
     #--
-    logging.info("===spider2 start===")
+    logging.info("===" + title +" start===")
     logging.info(time.asctime())
+    logging.info("logFile: " + logFile)
+    logging.info("outFile: " + outFile)
 
     # proxy={'http':'http://127.0.0.1:8888', 'https':'https://127.0.0.1:8888'}
 
@@ -120,7 +127,7 @@ def TestSpider2(rootPath):
         ts13 = str(int(time.time()*1000))
         ts10 = str(int(time.time()))
 
-        with open(cwd + "/js/boot.js", "r", encoding="UTF-8") as f:
+        with open(jsPath + "/boot.js", "r", encoding="UTF-8") as f:
             content = f.read()
         ctx = execjs.compile(content)
         logid = ctx.call("Getlogid", cookieDict["BAIDUID"])
@@ -225,15 +232,14 @@ def TestSpider2(rootPath):
 
     #-- save JSON
     jsonDict = json.loads(resp.text,encoding="UTF-8")
-    jPath = cwd + "/json"
-    if not os.path.exists(jPath):
-        os.makedirs(jPath)
-    jFileName = jPath + "/outKRlist.json"
+
+    if not os.path.exists(os.path.dirname(outFile)):
+        os.makedirs(os.path.dirname(outFile))
 
     # check old list
-    if os.path.isfile(jFileName):
+    if os.path.isfile(outFile):
         # file exists
-        with open(jFileName, "r", encoding="UTF-8") as f:
+        with open(outFile, "r", encoding="UTF-8") as f:
             jloadDict = json.load(f)
         #compare different
         difflist = []
@@ -267,15 +273,15 @@ def TestSpider2(rootPath):
             smtp.quit()
 
             #update file
-            with open(jFileName, "w", encoding="UTF-8") as f:
+            with open(outFile, "w", encoding="UTF-8") as f:
                 json.dump(jsonDict, f)
     else:
         # file not exists
-        with open(jFileName, "w", encoding="UTF-8") as f:
+        with open(outFile, "w", encoding="UTF-8") as f:
             json.dump(jsonDict, f)
 
     # --
-    logging.info("===spider2 end===")
+    logging.info("===" + title + " end===")
     logging.info(time.asctime())
     return
 

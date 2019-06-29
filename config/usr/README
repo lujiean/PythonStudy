@@ -1,10 +1,11 @@
 create JSON file store below config.
 
 filename: 
-spider.cfg
+XXX.cfg
 
 fileformat:
 {
+    "title":"XXXXXX",
     "url":"XXXXX",
     "pickup":"XXXX",
     "email":{
@@ -12,4 +13,8 @@ fileformat:
         "passwd":"XXXXX!",
         "receiver":"XXXXXX@qq.com"
     }
+    "jsPath":"XXXXXX",
+    "configFile":"XXXXXX",
+    "logFile":"XXXXXX",
+    "outFile":"XXXXXX"
 }

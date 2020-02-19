@@ -193,7 +193,8 @@ def TestSpider2(configFile):
                 jsAssignDict[li[0].strip()]=li[1].strip()
             li=re.findall(r'yunData.PATH = .*;',l.get_text())
             if len(li) > 0:
-                li = li[0].replace("=","").replace("\\","").split('"')
+                # li = li[0].replace("=","").replace("\\","").split('"')
+                li = li[0].replace("=","").replace("\\","").replace("x27","'").split('"')
                 jsAssignDict[li[0].strip()]=li[1].strip()
 
         # print(jsAssignDict)
@@ -243,9 +244,15 @@ def TestSpider2(configFile):
             jloadDict = json.load(f)
         #compare different
         difflist = []
-        for i in jsonDict["list"]:
-            if i not in jloadDict["list"]:
-                difflist.append(i)
+        # for i in jsonDict["list"]:
+        for i in range(jsonDict["list"].__len__()):
+            i_new_server_filename=jsonDict["list"][i]["server_filename"]
+            # if i not in jloadDict["list"]:
+            for j in range(jloadDict["list"].__len__()):
+                if i_new_server_filename == jloadDict["list"][j]["server_filename"]:
+                    break
+            else:
+                difflist.append(i_new_server_filename)
         #--
         
         if difflist.__len__() == 0:
@@ -256,7 +263,11 @@ def TestSpider2(configFile):
             logging.info("Been changed:{0}".format(difflist.__str__()))
             subject = ""
             for i in difflist:
-                subject = subject + i["path"] + ","
+                # subject = subject + i["path"] + ","
+                if len(subject) == 0:
+                    subject = i
+                else:
+                    subject = subject + "," + i
             #send notification email
             # try:
             smtp = smtplib.SMTP_SSL("smtp.163.com", 465)
